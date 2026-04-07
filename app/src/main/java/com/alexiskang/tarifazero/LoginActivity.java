@@ -66,14 +66,14 @@ public class LoginActivity extends AppCompatActivity {
 
     }
     private void inicializarCampos(){
-        edtEmail = findViewById(R.id.edtEmail);
-        edtSenha = findViewById(R.id.edtSenha);
-        txtEsqueceuSenha = findViewById(R.id.txtEsqueceuSenha);
-        imgGoogle = findViewById(R.id.imgGoogle);
-        imgEmail = findViewById(R.id.imgEmail);
-        imgFacebook = findViewById(R.id.imgFacebook);
-        chbMostrarSenha = findViewById(R.id.chbMostrarSenha);
-        btnLogin = findViewById(R.id.btnLogin);
+        edtEmail = findViewById(R.id.edt_email);
+        edtSenha = findViewById(R.id.edt_password);
+        txtEsqueceuSenha = findViewById(R.id.txt_forgot_password);
+        imgGoogle = findViewById(R.id.img_google);
+        imgEmail = findViewById(R.id.img_email);
+        imgFacebook = findViewById(R.id.img_facebook);
+        chbMostrarSenha = findViewById(R.id.chb_show_password);
+        btnLogin = findViewById(R.id.btn_login);
     }
 
     public void onCheckboxClicked(View view){

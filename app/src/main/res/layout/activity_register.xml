@@ -13,63 +13,63 @@
         android:layout_height="wrap_content"
         android:focusableInTouchMode="true">
 
-    <ImageView
-        android:id="@+id/logo"
-        android:layout_width="225dp"
-        android:layout_height="225dp"
-        android:layout_marginTop="124dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.532"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo" />
+        <ImageView
+            android:id="@+id/img_logo"
+            android:layout_width="225dp"
+            android:layout_height="225dp"
+            android:layout_marginTop="124dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.532"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/logo" />
+
         <TextView
-            android:id="@+id/txtNomeRegister"
+            android:id="@+id/txt_name_register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="5dp"
-            android:text="Nome"
+            android:text="Name"
             android:textColor="@color/black"
             android:textStyle="bold"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/logo" />
+            app:layout_constraintTop_toBottomOf="@+id/img_logo" />
 
-    <EditText
-        android:id="@+id/edtNomeRegister"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="20dp"
-        android:ems="10"
-        android:inputType="text"
-        android:textColor="@color/black"
-        android:hint="Digite aqui seu nome completo"
-        android:backgroundTint="@color/green"
-        android:drawableLeft="@drawable/baseline_person_24"
-        android:drawablePadding="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtNomeRegister" />
+        <EditText
+            android:id="@+id/edt_name_register"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="20dp"
+            android:ems="10"
+            android:inputType="text"
+            android:textColor="@color/black"
+            android:hint="Enter your full name"
+            android:backgroundTint="@color/green"
+            android:drawableLeft="@drawable/baseline_person_24"
+            android:drawablePadding="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_name_register" />
 
         <TextView
-            android:id="@+id/txtCursoRegister"
+            android:id="@+id/txt_course_register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:text="Curso"
+            android:text="Course"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edtNomeRegister" />
-
+            app:layout_constraintTop_toBottomOf="@+id/edt_name_register" />
 
         <EditText
-            android:id="@+id/edtCursoRegister"
+            android:id="@+id/edt_course_register"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -78,17 +78,17 @@
             android:ems="10"
             android:inputType="textPassword"
             android:textColor="@color/black"
-            android:hint="Digite aqui o curso"
+            android:hint="Enter your course"
             android:backgroundTint="@color/green"
             android:drawableLeft="@drawable/baseline_work_24"
             android:drawablePadding="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtCursoRegister" />
+            app:layout_constraintTop_toBottomOf="@+id/txt_course_register" />
 
         <TextView
-            android:id="@+id/txtEmailRegister"
+            android:id="@+id/txt_email_register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -98,10 +98,10 @@
             android:textStyle="bold"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edtCursoRegister" />
+            app:layout_constraintTop_toBottomOf="@+id/edt_course_register" />
 
         <EditText
-            android:id="@+id/edtEmailRegister"
+            android:id="@+id/edt_email_register"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -110,19 +110,17 @@
             android:ems="10"
             android:inputType="text"
             android:textColor="@color/black"
-            android:hint="Digite aqui seu email"
+            android:hint="Enter your email"
             android:backgroundTint="@color/green"
             android:drawableLeft="@drawable/baseline_email_24"
             android:drawablePadding="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtEmailRegister" />
-
-
+            app:layout_constraintTop_toBottomOf="@+id/txt_email_register" />
 
         <EditText
-            android:id="@+id/edtSenhaRegister"
+            android:id="@+id/edt_password_register"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -131,55 +129,55 @@
             android:ems="10"
             android:inputType="textPassword"
             android:textColor="@color/black"
-            android:hint="Digite aqui sua senha"
+            android:hint="Enter your password"
             android:backgroundTint="@color/green"
             android:drawableLeft="@drawable/baseline_https_24"
             android:drawablePadding="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtSenhaRegister" />
+            app:layout_constraintTop_toBottomOf="@+id/txt_password_register" />
 
         <TextView
-            android:id="@+id/txtSenhaRegister"
+            android:id="@+id/txt_password_register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
-            android:text="Senha"
+            android:text="Password"
             android:textColor="@color/black"
             android:textStyle="bold"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edtEmailRegister" />
+            app:layout_constraintTop_toBottomOf="@+id/edt_email_register" />
 
         <Button
-        android:id="@+id/btnSalvarRegister"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="20dp"
-        android:text="Salvar"
-        android:textSize="30dp"
-        android:backgroundTint="@color/green"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtSenhaRegister" />
+            android:id="@+id/btn_save_register"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="20dp"
+            android:text="Save"
+            android:textSize="30dp"
+            android:backgroundTint="@color/green"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edt_password_register" />
 
         <Button
-            android:id="@+id/btnVoltar"
+            android:id="@+id/btn_back_register"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="20dp"
-            android:text="Voltar"
+            android:text="Back"
             android:textSize="30dp"
             android:backgroundTint="@color/gray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnSalvarRegister" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_save_register" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

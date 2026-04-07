@@ -15,7 +15,7 @@
         android:focusableInTouchMode="true">
 
         <ImageView
-            android:id="@+id/logo"
+            android:id="@+id/img_logo"
             android:layout_width="225dp"
             android:layout_height="225dp"
             android:layout_marginTop="124dp"
@@ -26,7 +26,7 @@
             app:srcCompat="@drawable/logo" />
 
         <EditText
-            android:id="@+id/edtEmail"
+            android:id="@+id/edt_email"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -42,10 +42,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtEmail" />
+            app:layout_constraintTop_toBottomOf="@+id/txt_email" />
 
         <TextView
-            android:id="@+id/txtEmail"
+            android:id="@+id/txt_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -55,10 +55,10 @@
             android:textStyle="bold"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/logo" />
+            app:layout_constraintTop_toBottomOf="@+id/img_logo" />
 
         <EditText
-            android:id="@+id/edtSenha"
+            android:id="@+id/edt_password"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -74,10 +74,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtSenha" />
+            app:layout_constraintTop_toBottomOf="@+id/txt_password" />
 
         <TextView
-            android:id="@+id/txtSenha"
+            android:id="@+id/txt_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -87,10 +87,10 @@
             android:textStyle="bold"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edtEmail" />
+            app:layout_constraintTop_toBottomOf="@+id/edt_email" />
 
         <CheckBox
-            android:id="@+id/chbMostrarSenha"
+            android:id="@+id/chb_show_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -101,10 +101,10 @@
             android:checked="false"
             android:drawableTint="@color/black"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edtSenha" />
+            app:layout_constraintTop_toBottomOf="@+id/edt_password" />
 
         <TextView
-            android:id="@+id/txtEsqueceuSenha"
+            android:id="@+id/txt_forgot_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -113,10 +113,10 @@
             android:textStyle="bold"
             android:textColor="@color/green"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edtSenha" />
+            app:layout_constraintTop_toBottomOf="@+id/edt_password" />
 
         <Button
-            android:id="@+id/btnLogin"
+            android:id="@+id/btn_login"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -127,10 +127,10 @@
             android:backgroundTint="@color/green"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/chbMostrarSenha" />
+            app:layout_constraintTop_toBottomOf="@+id/chb_show_password" />
 
         <TextView
-            android:id="@+id/txtCadastrese"
+            android:id="@+id/txt_register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
@@ -138,7 +138,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_login" />
 
         <LinearLayout
             android:layout_width="200dp"
@@ -147,13 +147,12 @@
             android:layout_marginTop="1dp"
             android:layout_marginEnd="20dp"
             android:orientation="horizontal"
-
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtCadastrese">
+            app:layout_constraintTop_toBottomOf="@+id/txt_register">
 
             <ImageView
-                android:id="@+id/imgGoogle"
+                android:id="@+id/img_google"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -161,7 +160,7 @@
                 app:srcCompat="@drawable/google" />
 
             <ImageView
-                android:id="@+id/imgEmail"
+                android:id="@+id/img_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -169,7 +168,7 @@
                 app:srcCompat="@drawable/mail" />
 
             <ImageView
-                android:id="@+id/imgFacebook"
+                android:id="@+id/img_facebook"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -180,5 +179,3 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>
-
-

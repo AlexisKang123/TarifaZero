@@ -2,19 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/notification"
+        android:id="@+id/nav_notification"
         android:title="Notification"
         android:icon="@drawable/baseline_notifications_24" />
 
     <item
-        android:checked="true"
-        android:id="@+id/home"
+        android:id="@+id/nav_home"
         android:title="Home"
-        android:icon="@drawable/baseline_home_24" />
+        android:icon="@drawable/baseline_home_24"
+        android:checked="true" />
 
     <item
-        android:id="@+id/configuration"
-        android:title="Configuration"
+        android:id="@+id/nav_settings"
+        android:title="Settings"
         android:icon="@drawable/baseline_miscellaneous_services_24" />
 
 </menu>
