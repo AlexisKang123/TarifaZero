@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeFragment">
+    tools:context=".ui.fragment.HomeFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,6 +30,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Ciclano Beltrano"
+                    android:textColor="@color/black"
                     android:textSize="30sp"
                     android:textStyle="bold" />
 
@@ -37,7 +38,8 @@
                     android:id="@+id/txt_adress_main"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="R. Cap. Frederico Teixeira Guimarães..."
+                    android:textColor="@color/black"
+                    android:text="R. Cap. Frederico Teixeira Guimarães aksdbaksbdasbdand"
                     android:textSize="14sp" />
 
             </LinearLayout>
@@ -74,6 +76,7 @@
 
                 <!-- CARD -->
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_history_home"
                     android:layout_width="0dp"
                     android:layout_height="150dp"
                     android:layout_weight="1"
@@ -86,13 +89,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="Notificações"
+                        android:text="Histórico"
+                        android:textColor="@color/black"
                         android:textSize="24sp"
-                        android:drawableTop="@drawable/bell"
+                        android:drawableTop="@drawable/history"
                         />
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_adress_home"
                     android:layout_width="0dp"
                     android:layout_height="150dp"
                     android:layout_weight="1"
@@ -104,6 +109,7 @@
                     <TextView
                         android:layout_gravity="center"
                         android:text="Endereços"
+                        android:textColor="@color/black"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:textSize="24sp"
@@ -119,6 +125,7 @@
                 android:orientation="horizontal">
 
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_support_home"
                     android:layout_width="0dp"
                     android:layout_height="150dp"
                     android:layout_weight="1"
@@ -130,6 +137,7 @@
                     <TextView
                         android:layout_gravity="center"
                         android:text="Suporte"
+                        android:textColor="@color/black"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:textSize="24sp"
@@ -137,6 +145,7 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_all_bus_stop_home"
                     android:layout_width="0dp"
                     android:layout_height="150dp"
                     android:layout_weight="1"
@@ -150,6 +159,8 @@
                         android:text="Todos os pontos"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
+                        android:textColor="@color/black"
+                        android:gravity="center"
                         android:textSize="24sp"
                         android:drawableTop="@drawable/bus"/>
                 </com.google.android.material.card.MaterialCardView>
