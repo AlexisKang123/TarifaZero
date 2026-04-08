@@ -2,6 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -12,23 +19,35 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TarifaZero">
         <activity
-            android:name=".RegisterActivity"
+            android:name=".ui.activity.BusStopActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".ui.activity.ChatActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.AdressActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.RegisterActivity"
             android:windowSoftInputMode="stateHidden|adjustPan"
+            android:exported="true" />
+        <activity
+            android:name=".ui.activity.LoginActivity"
+            android:exported="true"
+            android:windowSoftInputMode="stateHidden|adjustPan">
+        </activity>
+        <activity
+            android:name=".ui.activity.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".MainActivity"
-            android:exported="true">
 
         </activity>
+        <activity
+            android:name=".ui.activity.MainActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

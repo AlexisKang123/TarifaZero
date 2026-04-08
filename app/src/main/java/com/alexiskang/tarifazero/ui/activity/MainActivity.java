@@ -1,16 +1,24 @@
-package com.alexiskang.tarifazero;
+package com.alexiskang.tarifazero.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
+import com.alexiskang.tarifazero.ui.fragment.HomeFragment;
+import com.alexiskang.tarifazero.ui.fragment.NotificationFragment;
+import com.alexiskang.tarifazero.R;
+import com.alexiskang.tarifazero.ui.fragment.SettingsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private BottomNavigationView bnvNavegacao;
+    private BottomNavigationView bnvNavegation;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,13 +26,28 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-        inicializarComponentes();
+        initializeComponents();
 
-        bnvNavegacao.setSelectedItemId(R.id.nav_home);
+        bnvNavegation.setSelectedItemId(R.id.nav_home);
 
         loadFragment(new HomeFragment());
 
-        bnvNavegacao.setOnItemSelectedListener(item -> {
+        setListeners();
+    }
+
+    private void initializeComponents(){
+        bnvNavegation = findViewById(R.id.bnv_navigation);
+    }
+
+    private void loadFragment(Fragment fragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .commit();
+    }
+
+    private void setListeners(){
+        bnvNavegation.setOnItemSelectedListener(item -> {
 
             if (item.getItemId() == R.id.nav_home) {
                 loadFragment(new HomeFragment());
@@ -41,16 +64,5 @@ public class MainActivity extends AppCompatActivity {
 
             return false;
         });
-    }
-
-    private void inicializarComponentes(){
-        bnvNavegacao = findViewById(R.id.bnv_navigation);
-    }
-
-    private void loadFragment(Fragment fragment) {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .commit();
     }
 }
