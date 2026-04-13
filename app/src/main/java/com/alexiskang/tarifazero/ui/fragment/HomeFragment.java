@@ -17,17 +17,30 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alexiskang.tarifazero.R;
-import com.alexiskang.tarifazero.ui.activity.AdressActivity;
+import com.alexiskang.tarifazero.database.SupabaseClient;
+import com.alexiskang.tarifazero.database.SupabaseConfig;
+import com.alexiskang.tarifazero.database.SupabaseService;
+import com.alexiskang.tarifazero.model.Address;
+import com.alexiskang.tarifazero.model.User;
+import com.alexiskang.tarifazero.model.UserAddress;
+import com.alexiskang.tarifazero.ui.activity.AddressActivity;
 import com.alexiskang.tarifazero.ui.activity.BusStopActivity;
+import com.alexiskang.tarifazero.utils.SessionManager;
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HomeFragment extends Fragment {
 
     public HomeFragment() {}
 
     private CardView cardSupport, cardHistory, cardAllBusStop, cardAdress;
-    private TextView txtMorInfo, txtDriver, txtVehicle, txtPlate;
+    private TextView txtMorInfo, txtDriver, txtVehicle, txtPlate, txtAddress, txtFullName;
     private LinearLayout layoutMoreInfo;
     private boolean card_more_info = false;
     private Button btnOpenMap, btnCheckIn;
@@ -39,6 +52,10 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         initializeComponents(view);
+
+        loadAddress();
+
+        loadUser();
 
         listeners();
 
@@ -59,13 +76,15 @@ public class HomeFragment extends Fragment {
         txtPlate = (TextView) view.findViewById(R.id.txt_plate);
         btnOpenMap = (Button) view.findViewById(R.id.btn_maps_card_bus);
         btnCheckIn = (Button) view.findViewById(R.id.btn_checkin);
+        txtAddress = (TextView) view.findViewById(R.id.txt_adress_main);
+        txtFullName = (TextView) view.findViewById(R.id.txt_name_main);
     }
 
     private void listeners(){
         cardAdress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), AdressActivity.class);
+                Intent intent = new Intent(getActivity(), AddressActivity.class);
                 startActivity(intent);
             }
         });
@@ -158,13 +177,81 @@ public class HomeFragment extends Fragment {
 
         barcodeLauncher.launch(options);
     }
+
+    private void loadAddress(){
+        SessionManager session = new SessionManager(getContext());
+
+        if(session.getAddress().isEmpty()){
+            txtAddress.setText("Carregando...");
+        }
+
+
+        txtAddress.setText(session.getAddress());
+
+        SupabaseService service = SupabaseClient
+                .getClient()
+                .create(SupabaseService.class);
+
+        service.getUserAddresses(
+                SupabaseConfig.API_KEY,
+                "Bearer " + session.getToken()
+        ).enqueue(new Callback<List<UserAddress>>() {
+
+            @Override
+            public void onResponse(Call<List<UserAddress>> call, Response<List<UserAddress>> response) {
+                if(response.isSuccessful() && response.body() != null && !response.body().isEmpty()){
+
+                    Address address = response.body().get(0).getAddress();
+
+                    String formatAddress = address.getStreet() + ", " + address.getNumber() + " - " + address.getDistrict() + ". " + address.getZip_code() ;
+
+                    txtAddress.setText(formatAddress);
+                    session.saveAddress(formatAddress);
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<UserAddress>> call, Throwable t) {
+
+            }
+        });
+    }
+    private void loadUser(){
+
+        SessionManager session = new SessionManager(getContext());
+
+        if(session.getUserName().isEmpty()){
+            txtFullName.setText("Carregando...");
+        }
+
+        txtFullName.setText(session.getUserName());
+
+        SupabaseService service = SupabaseClient
+                .getClient()
+                .create(SupabaseService.class);
+
+        service.getUser(
+                SupabaseConfig.API_KEY,
+                "Bearer " + session.getToken()
+        ).enqueue(new Callback<List<User>>() {
+
+            @Override
+            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+
+                if(response.isSuccessful() && response.body() != null && !response.body().isEmpty()){
+
+                    User user = response.body().get(0);
+
+                    txtFullName.setText(user.getName());
+                    session.saveUserName(user.getName());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<User>> call, Throwable t) {
+
+            }
+        });
+    }
 }
-
-
-
-//funçao de abrir o card
-//Funçao de editar foto
-//Funçao de alterar endereco
-//Funcao check-in
-//Funcao lembrete
-//Funçao abrir mapa

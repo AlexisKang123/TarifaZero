@@ -46,8 +46,6 @@ public class LoginActivity extends AppCompatActivity {
 
         initializeComponents();
 
-        testConnection();
-
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,34 +106,6 @@ public class LoginActivity extends AppCompatActivity {
         }else{
             edtPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         }
-    }
-
-    private void testConnection(){
-        SupabaseService service = SupabaseClient
-                .getClient()
-                .create(SupabaseService.class);
-
-        service.testarConexao(
-                SupabaseConfig.API_KEY,
-                "Bearer " + SupabaseConfig.API_KEY
-        ).enqueue(new retrofit2.Callback<Object>() {
-
-            @Override
-            public void onResponse(retrofit2.Call<Object> call, retrofit2.Response<Object> response) {
-
-                Log.d("SUPABASE", "Código: " + response.code());
-                if(response.body() != null){
-                    Log.d("SUPABASE", response.body().toString());
-                }
-                Log.d("SUPABASE", "Erro: " + response.errorBody());
-            }
-
-            @Override
-            public void onFailure(retrofit2.Call<Object> call, Throwable t) {
-                t.printStackTrace();
-                Log.e("SUPABASE", "Erro: " + t.getMessage());
-            }
-        });
     }
 
     private void checkLogin(){

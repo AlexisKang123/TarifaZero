@@ -9,19 +9,21 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alexiskang.tarifazero.R;
-import com.alexiskang.tarifazero.model.Adress;
-import com.alexiskang.tarifazero.ui.adapter.adress.ViewHolderAdress;
+import com.alexiskang.tarifazero.model.Address;
+import com.alexiskang.tarifazero.model.UserAddress;
 
 import java.util.List;
 
 public class AdapterAdress extends RecyclerView.Adapter<ViewHolderAdress> {
 
     private Context context;
-    private List<Adress> adresses;
+    private List<UserAddress> adresses;
+    private OnAddressClick listener;
 
-    public AdapterAdress(Context context, List<Adress> adresses) {
+    public AdapterAdress(Context context, List<UserAddress> adresses, OnAddressClick listener) {
         this.context = context;
         this.adresses = adresses;
+        this.listener = listener;
     }
 
     @NonNull
@@ -37,36 +39,40 @@ public class AdapterAdress extends RecyclerView.Adapter<ViewHolderAdress> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolderAdress holder, int position) {
 
-        Adress adress = adresses.get(position);
+
 
         holder.txtTitle.setText("Endereço");
 
-        String endereco = adress.getStreet() + ", " +
-                adress.getNumber() + " - " +
-                adress.getDistrict() + " - " +
-                adress.getZip_code();
+        UserAddress address = adresses.get(position);
+
+        String endereco = address.getAddress().getStreet() + ", " +
+                address.getAddress().getNumber() + " - " +
+                address.getAddress().getDistrict() + " - " +
+                address.getAddress().getZip_code();
 
         holder.txtAdress.setText(endereco);
 
-        holder.radioButton.setChecked(adress.isSelected());
+        holder.radioButton.setChecked(address.isSelected());
 
         holder.itemView.setOnClickListener(v -> {
 
-           if(adress.isSelected()){
-               adress.setSelected(false);
-           }else{
-               adress.setSelected(true);
-           }
+            for (UserAddress a : adresses) {
+                a.setSelected(false);
+            }
+
+            address.setSelected(true);
 
             notifyDataSetChanged();
+
+            listener.onSelect(address);
         });
 
         holder.radioButton.setOnClickListener(v -> {
 
-            if(adress.isSelected()){
-                adress.setSelected(false);
+            if(address.isSelected()){
+                address.setSelected(false);
             }else{
-                adress.setSelected(true);
+                address.setSelected(true);
             }
 
             notifyDataSetChanged();
@@ -76,5 +82,9 @@ public class AdapterAdress extends RecyclerView.Adapter<ViewHolderAdress> {
     @Override
     public int getItemCount() {
         return adresses.size();
+    }
+
+    public interface OnAddressClick {
+        void onSelect(UserAddress address);
     }
 }

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:background="@color/white"
-    tools:context=".ui.activity.AdressActivity">
+    tools:context=".ui.activity.AddressActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_adress"

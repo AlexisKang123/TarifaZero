@@ -5,13 +5,13 @@ import java.time.LocalDateTime;
 public class BusStop {
     private String UUID;
     private String title;
-    private Adress adress;
+    private BusStopAddress adress;
     private LocalDateTime time;
 
     public BusStop() {
     }
 
-    public BusStop(String UUID, String title, Adress adress, LocalDateTime time) {
+    public BusStop(String UUID, String title, BusStopAddress adress, LocalDateTime time) {
         this.UUID = UUID;
         this.title = title;
         this.adress = adress;
@@ -34,11 +34,11 @@ public class BusStop {
         this.title = title;
     }
 
-    public Adress getAdress() {
+    public BusStopAddress getAdress() {
         return adress;
     }
 
-    public void setAdress(Adress adress) {
+    public void setAdress(BusStopAddress adress) {
         this.adress = adress;
     }
 

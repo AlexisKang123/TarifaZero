@@ -33,4 +33,22 @@ public class SessionManager {
         editor.clear();
         editor.apply();
     }
+
+    public void saveUserName(String name){
+        editor.putString("user_name", name);
+        editor.apply();
+    }
+
+    public String getUserName(){
+        return prefs.getString("user_name", "");
+    }
+
+    public void saveAddress(String address){
+        editor.putString("user_address", address);
+        editor.apply();
+    }
+
+    public String getAddress(){
+        return prefs.getString("user_address", "");
+    }
 }
