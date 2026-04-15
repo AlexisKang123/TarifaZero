@@ -58,7 +58,7 @@ public class AuthRepository {
 
                                     String id = userJson.getString("id");
 
-                                    User user = new User(id, nome, curso, email);
+                                    User user = new User(id, nome, curso, email, null);
 
                                     service.insertUser(
                                             SupabaseConfig.API_KEY,

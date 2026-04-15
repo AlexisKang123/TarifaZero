@@ -8,17 +8,19 @@ public class User {
     private String name;
     private String course;
     private String email;
+    private String image;
 
     private ArrayList<UserAddress> adresses;
 
     public User() {
     }
 
-    public User(String id, String name, String course, String email) {
+    public User(String id, String name, String course, String email, String image) {
         this.id = id;
         this.name = name;
         this.course = course;
         this.email = email;
+        this.image = image;
     }
 
     public String getId() {
@@ -53,6 +55,14 @@ public class User {
         this.email = email;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     public ArrayList<UserAddress> getAdresses() {
         return adresses;
     }
@@ -68,6 +78,7 @@ public class User {
                 ", name='" + name + '\'' +
                 ", course='" + course + '\'' +
                 ", email='" + email + '\'' +
+                ", image='" + image + '\'' +
                 ", adresses=" + adresses +
                 '}';
     }
