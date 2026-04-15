@@ -26,8 +26,11 @@ import com.alexiskang.tarifazero.model.UserAddress;
 import com.alexiskang.tarifazero.ui.activity.AddressActivity;
 import com.alexiskang.tarifazero.ui.activity.BusStopActivity;
 import com.alexiskang.tarifazero.utils.SessionManager;
+import com.bumptech.glide.Glide;
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import java.util.List;
 
@@ -41,6 +44,7 @@ public class HomeFragment extends Fragment {
 
     private CardView cardSupport, cardHistory, cardAllBusStop, cardAdress;
     private TextView txtMorInfo, txtDriver, txtVehicle, txtPlate, txtAddress, txtFullName;
+    private CircleImageView imgProfile;
     private LinearLayout layoutMoreInfo;
     private boolean card_more_info = false;
     private Button btnOpenMap, btnCheckIn;
@@ -78,6 +82,7 @@ public class HomeFragment extends Fragment {
         btnCheckIn = (Button) view.findViewById(R.id.btn_checkin);
         txtAddress = (TextView) view.findViewById(R.id.txt_adress_main);
         txtFullName = (TextView) view.findViewById(R.id.txt_name_main);
+        imgProfile = (CircleImageView) view.findViewById(R.id.img_profile_main);
     }
 
     private void listeners(){
@@ -245,6 +250,12 @@ public class HomeFragment extends Fragment {
 
                     txtFullName.setText(user.getName());
                     session.saveUserName(user.getName());
+
+                    Glide.with(requireContext())
+                            .load(user.getImage())
+                            .placeholder(R.drawable.baseline_person_24)
+                            .error(R.drawable.baseline_person_24)
+                            .into(imgProfile);
                 }
             }
 
