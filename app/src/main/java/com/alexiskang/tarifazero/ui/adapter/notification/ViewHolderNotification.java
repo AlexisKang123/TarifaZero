@@ -1,6 +1,7 @@
 package com.alexiskang.tarifazero.ui.adapter.notification;
 
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -10,11 +11,13 @@ import com.alexiskang.tarifazero.R;
 
 public class ViewHolderNotification extends RecyclerView.ViewHolder{
 
+    public ImageView imgNotification;
     public TextView txtTitleNotification, txtDescribeNotification, txtDelayNotification;
 
     public ViewHolderNotification(@NonNull View itemView) {
         super(itemView);
 
+        imgNotification = itemView.findViewById(R.id.img_notification);
         txtTitleNotification = itemView.findViewById(R.id.txt_title_notification);
         txtDescribeNotification = itemView.findViewById(R.id.txt_describe_notification);
         txtDelayNotification = itemView.findViewById(R.id.txt_delay_notification);

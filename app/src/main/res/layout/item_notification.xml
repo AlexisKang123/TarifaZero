@@ -18,6 +18,7 @@
             android:id="@+id/img_notification"
             android:layout_width="130dp"
             android:layout_height="130dp"
+            android:scaleType="centerCrop"
             android:padding="5dp"
             android:src="@drawable/baseline_home_24"
             android:layout_gravity="center"

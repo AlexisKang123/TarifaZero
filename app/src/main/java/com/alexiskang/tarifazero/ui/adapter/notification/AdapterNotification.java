@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alexiskang.tarifazero.R;
 import com.alexiskang.tarifazero.model.Notification;
-import com.alexiskang.tarifazero.ui.adapter.adress.ViewHolderAdress;
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -40,6 +40,12 @@ public class AdapterNotification extends RecyclerView.Adapter<ViewHolderNotifica
         holder.txtTitleNotification.setText(notification.getTitle());
         holder.txtDescribeNotification.setText(notification.getDescribe());
         holder.txtDelayNotification.setText(notification.getStatus());
+
+        Glide.with(context)
+                .load(notification.getImage())
+                .placeholder(R.drawable.baseline_home_24)
+                .error(R.drawable.baseline_home_24)
+                .into(holder.imgNotification);
     }
 
     @Override

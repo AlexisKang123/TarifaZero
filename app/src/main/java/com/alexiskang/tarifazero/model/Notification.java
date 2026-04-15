@@ -6,15 +6,17 @@ public class Notification {
     private String title;
     private String description;
     private String status;
+    private String image;
 
     public Notification() {
     }
 
-    public Notification(String UUID, String title, String describe, String status) {
+    public Notification(String UUID, String title, String describe, String status, String image) {
         this.uuid = UUID;
         this.title = title;
         this.description = describe;
         this.status = status;
+        this.image = image;
     }
 
     public String getUUID() {
@@ -49,6 +51,14 @@ public class Notification {
         this.status = status;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     @Override
     public String toString() {
         return "Notification{" +
@@ -56,6 +66,7 @@ public class Notification {
                 ", title='" + title + '\'' +
                 ", describe='" + description + '\'' +
                 ", status='" + status + '\'' +
+                ", image='" + image + '\'' +
                 '}';
     }
 }
