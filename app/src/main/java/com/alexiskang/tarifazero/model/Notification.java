@@ -1,30 +1,28 @@
 package com.alexiskang.tarifazero.model;
 
-import java.time.LocalDateTime;
-
 public class Notification {
 
-    private String UUID;
+    private String uuid;
     private String title;
-    private String describe;
+    private String description;
     private String status;
 
     public Notification() {
     }
 
     public Notification(String UUID, String title, String describe, String status) {
-        this.UUID = UUID;
+        this.uuid = UUID;
         this.title = title;
-        this.describe = describe;
+        this.description = describe;
         this.status = status;
     }
 
     public String getUUID() {
-        return UUID;
+        return uuid;
     }
 
     public void setUUID(String UUID) {
-        this.UUID = UUID;
+        this.uuid = UUID;
     }
 
     public String getTitle() {
@@ -36,11 +34,11 @@ public class Notification {
     }
 
     public String getDescribe() {
-        return describe;
+        return description;
     }
 
     public void setDescribe(String describe) {
-        this.describe = describe;
+        this.description = describe;
     }
 
     public String getStatus() {
@@ -54,9 +52,9 @@ public class Notification {
     @Override
     public String toString() {
         return "Notification{" +
-                "UUID='" + UUID + '\'' +
+                "UUID='" + uuid + '\'' +
                 ", title='" + title + '\'' +
-                ", describe='" + describe + '\'' +
+                ", describe='" + description + '\'' +
                 ", status='" + status + '\'' +
                 '}';
     }
