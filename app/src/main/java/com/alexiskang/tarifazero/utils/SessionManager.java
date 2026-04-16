@@ -7,7 +7,8 @@ public class SessionManager {
 
     private static final String PREF_NAME = "app_session";
     private static final String KEY_TOKEN = "token";
-
+    private static final String KEY_LAT = "lat";
+    private static final String KEY_LON = "lon";
     private SharedPreferences prefs;
     private SharedPreferences.Editor editor;
 
@@ -50,5 +51,23 @@ public class SessionManager {
 
     public String getAddress(){
         return prefs.getString("user_address", "");
+    }
+
+    public void saveLat(double lat) {
+        editor.putFloat(KEY_LAT, (float) lat);
+        editor.apply();
+    }
+
+    public void saveLon(double lon) {
+        editor.putFloat(KEY_LON, (float) lon);
+        editor.apply();
+    }
+
+    public double getLat() {
+        return prefs.getFloat(KEY_LAT, 0f);
+    }
+
+    public double getLon() {
+        return prefs.getFloat(KEY_LON, 0f);
     }
 }

@@ -1,12 +1,20 @@
 package com.alexiskang.tarifazero.model;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Bus {
     private String UUID;
+    @SerializedName("model")
     private String model;
+    @SerializedName("version")
     private String version;
+    @SerializedName("brand")
     private String brand;
+    @SerializedName("plate")
     private String plate;
+    @SerializedName("year")
     private int year;
+    @SerializedName("capacity")
     private int capacity;
 
     public Bus() {

@@ -8,10 +8,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alexiskang.tarifazero.R;
+import com.alexiskang.tarifazero.database.SupabaseClient;
+import com.alexiskang.tarifazero.database.SupabaseConfig;
+import com.alexiskang.tarifazero.database.SupabaseService;
 import com.alexiskang.tarifazero.model.BusStop;
 import com.alexiskang.tarifazero.ui.adapter.busstop.AdapterBusStop;
+import com.alexiskang.tarifazero.utils.SessionManager;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class BusStopActivity extends AppCompatActivity {
 
@@ -25,20 +34,48 @@ public class BusStopActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_bus_stop);
 
-        //busStops = getBusStops();
-
         initializeComponents();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter = new AdapterBusStop(this, busStops);
-
-        recyclerView.setAdapter(adapter);
+        getBusStops();
 
     }
 
     private void initializeComponents(){
         recyclerView = findViewById(R.id.recycler_bus_stop);
+    }
+
+    private void getBusStops(){
+
+        SessionManager session = new SessionManager(this);
+
+        SupabaseService service = SupabaseClient
+                .getClient()
+                .create(SupabaseService.class);
+
+        service.getBusStops(
+                SupabaseConfig.API_KEY,
+                "Bearer " + session.getToken()
+        ).enqueue(new Callback<List<BusStop>>() {
+
+            @Override
+            public void onResponse(Call<List<BusStop>> call, Response<List<BusStop>> response) {
+
+                if(response.isSuccessful() && response.body() != null){
+
+                    busStops = new ArrayList<>(response.body());
+
+                    adapter = new AdapterBusStop(BusStopActivity.this, busStops);
+                    recyclerView.setAdapter(adapter);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<BusStop>> call, Throwable t) {
+
+            }
+        });
     }
 
 }

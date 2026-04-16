@@ -21,6 +21,7 @@ import com.alexiskang.tarifazero.database.SupabaseClient;
 import com.alexiskang.tarifazero.database.SupabaseConfig;
 import com.alexiskang.tarifazero.database.SupabaseService;
 import com.alexiskang.tarifazero.model.Address;
+import com.alexiskang.tarifazero.model.BusStop;
 import com.alexiskang.tarifazero.model.User;
 import com.alexiskang.tarifazero.model.UserAddress;
 import com.alexiskang.tarifazero.ui.activity.AddressActivity;
@@ -43,7 +44,7 @@ public class HomeFragment extends Fragment {
     public HomeFragment() {}
 
     private CardView cardSupport, cardHistory, cardAllBusStop, cardAdress;
-    private TextView txtMorInfo, txtDriver, txtVehicle, txtPlate, txtAddress, txtFullName;
+    private TextView txtMorInfo, txtDriver, txtVehicle, txtPlate, txtAddress, txtFullName, txtAdressCardBus;
     private CircleImageView imgProfile;
     private LinearLayout layoutMoreInfo;
     private boolean card_more_info = false;
@@ -83,6 +84,7 @@ public class HomeFragment extends Fragment {
         txtAddress = (TextView) view.findViewById(R.id.txt_adress_main);
         txtFullName = (TextView) view.findViewById(R.id.txt_name_main);
         imgProfile = (CircleImageView) view.findViewById(R.id.img_profile_main);
+        txtAdressCardBus = (TextView) view.findViewById(R.id.txt_adress_card_bus);
     }
 
     private void listeners(){
@@ -210,8 +212,13 @@ public class HomeFragment extends Fragment {
 
                     String formatAddress = address.getStreet() + ", " + address.getNumber() + " - " + address.getDistrict() + ". " + address.getZip_code() ;
 
+                    session.saveLat(address.getLatitude());
+                    session.saveLon(address.getLongitude());
+
                     txtAddress.setText(formatAddress);
                     session.saveAddress(formatAddress);
+
+                    buscarBusStopMaisProximo();
 
                 }
             }
@@ -251,16 +258,95 @@ public class HomeFragment extends Fragment {
                     txtFullName.setText(user.getName());
                     session.saveUserName(user.getName());
 
-                    Glide.with(requireContext())
-                            .load(user.getImage())
-                            .placeholder(R.drawable.baseline_person_24)
-                            .error(R.drawable.baseline_person_24)
-                            .into(imgProfile);
+                    if (getContext() != null) {
+                        Glide.with(getContext())
+                                .load(user.getImage())
+                                .placeholder(R.drawable.baseline_person_24)
+                                .error(R.drawable.baseline_person_24)
+                                .into(imgProfile);
+                    }
                 }
             }
 
             @Override
             public void onFailure(Call<List<User>> call, Throwable t) {
+
+            }
+        });
+    }
+    private double calcularDistancia(double lat1, double lon1, double lat2, double lon2) {
+
+        final int R = 6371;
+
+        double latDistance = Math.toRadians(lat2 - lat1);
+        double lonDistance = Math.toRadians(lon2 - lon1);
+
+        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
+                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
+                * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+        return R * c;
+    }
+
+    private void buscarBusStopMaisProximo() {
+
+        SessionManager session = new SessionManager(requireContext());
+
+        double userLat = session.getLat();
+        double userLon = session.getLon();
+
+        if (userLat == 0.0 || userLon == 0.0) return;
+
+        SupabaseService service = SupabaseClient
+                .getClient()
+                .create(SupabaseService.class);
+
+        service.getBusStops(
+                SupabaseConfig.API_KEY,
+                "Bearer " + session.getToken()
+        ).enqueue(new Callback<List<BusStop>>() {
+
+            @Override
+            public void onResponse(Call<List<BusStop>> call, Response<List<BusStop>> response) {
+
+                if (!isAdded()) return;
+
+                if (response.isSuccessful() && response.body() != null) {
+
+                    BusStop maisProximo = null;
+                    double menorDistancia = Double.MAX_VALUE;
+
+                    for (BusStop bs : response.body()) {
+
+                        if (bs.getAddress().getLatitude() != 0 && bs.getAddress().getLongitude() != 0) {
+
+                            double distancia = calcularDistancia(
+                                    userLat,
+                                    userLon,
+                                    bs.getAddress().getLatitude(),
+                                    bs.getAddress().getLongitude()
+                            );
+
+                            if (distancia < menorDistancia) {
+                                menorDistancia = distancia;
+                                maisProximo = bs;
+                            }
+                        }
+                    }
+
+                    if (maisProximo != null) {
+
+                        String dist = String.format("%.2f km", menorDistancia);
+
+                        txtAdressCardBus.setText(maisProximo.getTitle());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<BusStop>> call, Throwable t) {
 
             }
         });

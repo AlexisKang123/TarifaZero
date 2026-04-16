@@ -1,6 +1,7 @@
 package com.alexiskang.tarifazero.database;
 
 import com.alexiskang.tarifazero.model.AuthRequest;
+import com.alexiskang.tarifazero.model.BusStop;
 import com.alexiskang.tarifazero.model.Notification;
 import com.alexiskang.tarifazero.model.User;
 import com.alexiskang.tarifazero.model.UserAddress;
@@ -59,6 +60,12 @@ public interface SupabaseService {
 
     @GET("rest/v1/notification?select=*")
     Call<List<Notification>> getNotification(
+            @Header("apikey") String apiKey,
+            @Header("Authorization") String token
+    );
+
+    @GET("rest/v1/bus_stops?select=*,addresses(*)")
+    Call<List<BusStop>> getBusStops(
             @Header("apikey") String apiKey,
             @Header("Authorization") String token
     );

@@ -1,10 +1,13 @@
 package com.alexiskang.tarifazero.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Driver {
     private String id;
+    @SerializedName("name")
     private String name;
 
     public Driver() {

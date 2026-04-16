@@ -39,10 +39,12 @@ public class AdapterBusStop extends RecyclerView.Adapter<ViewHolderBusStop> {
     public void onBindViewHolder(@NonNull ViewHolderBusStop holder, int position) {
         BusStop busStop = busStops.get(position);
 
-        String adress = busStop.getAdress().getStreet() + ", " +
-                busStop.getAdress().getNumber() + " - " +
-                busStop.getAdress().getDistrict() + " - " +
-                busStop.getAdress().getZip_code();
+        Log.d("BUSSTOP", busStop.toString());
+
+        String adress = busStop.getAddress().getStreet() + ", " +
+                busStop.getAddress().getNumber() + " - " +
+                busStop.getAddress().getDistrict() + " - " +
+                busStop.getAddress().getZip_code();
 
         holder.txtTitleBusStop.setText(busStop.getTitle());
         holder.txtAdressBusStop.setText(adress);
