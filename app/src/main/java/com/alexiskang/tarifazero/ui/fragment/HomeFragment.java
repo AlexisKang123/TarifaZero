@@ -3,11 +3,6 @@ package com.alexiskang.tarifazero.ui.fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.cardview.widget.CardView;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +10,10 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
 
 import com.alexiskang.tarifazero.R;
 import com.alexiskang.tarifazero.database.SupabaseClient;
@@ -31,24 +30,27 @@ import com.bumptech.glide.Glide;
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 import java.util.List;
+import java.util.Locale;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class HomeFragment extends Fragment {
 
-    public HomeFragment() {}
+    public HomeFragment() {
+    }
 
     private CardView cardSupport, cardHistory, cardAllBusStop, cardAdress;
-    private TextView txtMorInfo, txtDriver, txtVehicle, txtPlate, txtAddress, txtFullName, txtAdressCardBus;
+    private TextView txtMorInfo, txtDriver, txtVehicle, txtPlate, txtAddress, txtFullName,
+            txtAdressCardBus, txtNextBus;
     private CircleImageView imgProfile;
     private LinearLayout layoutMoreInfo;
     private boolean card_more_info = false;
     private Button btnOpenMap, btnCheckIn;
+    private String enderecoBusStopMaisProximo;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -69,12 +71,12 @@ public class HomeFragment extends Fragment {
 
     }
 
-    private void initializeComponents(View view){
+    private void initializeComponents(View view) {
         cardAdress = (CardView) view.findViewById(R.id.card_adress_home);
         cardAllBusStop = (CardView) view.findViewById(R.id.card_all_bus_stop_home);
         cardHistory = (CardView) view.findViewById(R.id.card_history_home);
         cardSupport = (CardView) view.findViewById(R.id.card_support_home);
-        txtMorInfo = (TextView)  view.findViewById(R.id.txt_more_info);
+        txtMorInfo = (TextView) view.findViewById(R.id.txt_more_info);
         layoutMoreInfo = (LinearLayout) view.findViewById(R.id.layout_more_info);
         txtDriver = (TextView) view.findViewById(R.id.txt_driver);
         txtVehicle = (TextView) view.findViewById(R.id.txt_vehicle);
@@ -85,9 +87,11 @@ public class HomeFragment extends Fragment {
         txtFullName = (TextView) view.findViewById(R.id.txt_name_main);
         imgProfile = (CircleImageView) view.findViewById(R.id.img_profile_main);
         txtAdressCardBus = (TextView) view.findViewById(R.id.txt_adress_card_bus);
+        txtNextBus = (TextView) view.findViewById(R.id.txt_next_bus);
+        resetBusStopCard();
     }
 
-    private void listeners(){
+    private void listeners() {
         cardAdress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -124,16 +128,16 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                if(!card_more_info){
+                if (!card_more_info) {
                     layoutMoreInfo.setVisibility(v.VISIBLE);
                     txtDriver.setText("Alexis Daniel Kang");
                     txtVehicle.setText("Fusca 2010");
                     txtPlate.setText("1234-123");
                     txtMorInfo.setText("- menos informações");
                     card_more_info = true;
-                }else{
+                } else {
                     layoutMoreInfo.setVisibility(v.GONE);
-                    txtMorInfo.setText("- mais informações");
+                    txtMorInfo.setText("+ mais Informações");
                     card_more_info = false;
                 }
             }
@@ -142,8 +146,12 @@ public class HomeFragment extends Fragment {
         btnOpenMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String adress = "Av. Barão do Rio Branco, 90 - Centro. Palmas - PR";
-                openMap(adress);
+                if (enderecoBusStopMaisProximo == null || enderecoBusStopMaisProximo.isEmpty()) {
+                    Toast.makeText(getContext(), "Nenhum ponto proximo disponivel.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                openMap(enderecoBusStopMaisProximo);
             }
         });
         btnCheckIn.setOnClickListener(new View.OnClickListener() {
@@ -208,9 +216,15 @@ public class HomeFragment extends Fragment {
             public void onResponse(Call<List<UserAddress>> call, Response<List<UserAddress>> response) {
                 if(response.isSuccessful() && response.body() != null && !response.body().isEmpty()){
 
-                    Address address = response.body().get(0).getAddress();
+                    Address address = getSelectedAddress(response.body());
 
-                    String formatAddress = address.getStreet() + ", " + address.getNumber() + " - " + address.getDistrict() + ". " + address.getZip_code() ;
+                    if (address == null) {
+                        txtAddress.setText("Endereco nao encontrado");
+                        resetBusStopCard();
+                        return;
+                    }
+
+                    String formatAddress = buildAddressText(address);
 
                     session.saveLat(address.getLatitude());
                     session.saveLon(address.getLongitude());
@@ -220,20 +234,25 @@ public class HomeFragment extends Fragment {
 
                     buscarBusStopMaisProximo();
 
+                } else {
+                    txtAddress.setText(session.getAddress().isEmpty() ? "Endereco indisponivel" : session.getAddress());
+                    resetBusStopCard();
                 }
             }
 
             @Override
             public void onFailure(Call<List<UserAddress>> call, Throwable t) {
-
+                txtAddress.setText(session.getAddress().isEmpty() ? "Endereco indisponivel" : session.getAddress());
+                resetBusStopCard();
             }
         });
     }
-    private void loadUser(){
+
+    private void loadUser() {
 
         SessionManager session = new SessionManager(getContext());
 
-        if(session.getUserName().isEmpty()){
+        if (session.getUserName().isEmpty()) {
             txtFullName.setText("Carregando...");
         }
 
@@ -297,7 +316,10 @@ public class HomeFragment extends Fragment {
         double userLat = session.getLat();
         double userLon = session.getLon();
 
-        if (userLat == 0.0 || userLon == 0.0) return;
+        if (userLat == 0.0 || userLon == 0.0) {
+            resetBusStopCard();
+            return;
+        }
 
         SupabaseService service = SupabaseClient
                 .getClient()
@@ -337,18 +359,116 @@ public class HomeFragment extends Fragment {
                     }
 
                     if (maisProximo != null) {
-
-                        String dist = String.format("%.2f km", menorDistancia);
-
-                        txtAdressCardBus.setText(maisProximo.getTitle());
+                        updateBusStopCard(maisProximo, menorDistancia);
+                    } else {
+                        resetBusStopCard();
                     }
+                } else {
+                    resetBusStopCard();
                 }
             }
 
             @Override
             public void onFailure(Call<List<BusStop>> call, Throwable t) {
-
+                resetBusStopCard();
             }
         });
+    }
+
+    private void updateBusStopCard(BusStop busStop, double distanciaKm) {
+        String enderecoFormatado = buildAddressText(busStop.getAddress());
+        String titulo = busStop.getTitle() == null || busStop.getTitle().isEmpty()
+                ? "Ponto mais proximo"
+                : busStop.getTitle();
+
+        enderecoBusStopMaisProximo = enderecoFormatado;
+        txtNextBus.setText("Ponto mais próximo: " + titulo);
+        txtAdressCardBus.setText(titulo + " - " + formatDistance(distanciaKm) + "\n" + enderecoFormatado);
+    }
+
+    private void resetBusStopCard() {
+        enderecoBusStopMaisProximo = null;
+        txtNextBus.setText("Ponto mais proximo:");
+        txtAdressCardBus.setText("Nao foi possivel localizar um ponto proximo.");
+    }
+
+
+    private Address getSelectedAddress(List<UserAddress> userAddresses) {
+        for (UserAddress userAddress : userAddresses) {
+            if (userAddress != null && userAddress.isSelected() && userAddress.getAddress() != null) {
+                return userAddress.getAddress();
+            }
+        }
+
+        for (UserAddress userAddress : userAddresses) {
+            if (userAddress != null && userAddress.getAddress() != null) {
+                return userAddress.getAddress();
+            }
+        }
+
+        return null;
+    }
+
+    private String buildAddressText(Address address) {
+        if (address == null) {
+            return "Endereco indisponivel";
+        }
+
+        String street = safeText(address.getStreet());
+        String number = safeText(address.getNumber());
+        String district = safeText(address.getDistrict());
+        String city = safeText(address.getCity());
+        String state = safeText(address.getState());
+
+        StringBuilder builder = new StringBuilder();
+
+        if (!street.isEmpty()) {
+            builder.append(street);
+        }
+
+        if (!number.isEmpty()) {
+            if (builder.length() > 0) {
+                builder.append(", ");
+            }
+            builder.append(number);
+        }
+
+        if (!district.isEmpty()) {
+            if (builder.length() > 0) {
+                builder.append(" - ");
+            }
+            builder.append(district);
+        }
+
+        if (!city.isEmpty() || !state.isEmpty()) {
+            if (builder.length() > 0) {
+                builder.append(". ");
+            }
+            builder.append(city);
+
+            if (!city.isEmpty() && !state.isEmpty()) {
+                builder.append(" - ");
+            }
+
+            builder.append(state);
+        }
+
+        if (builder.length() == 0) {
+            return "Endereco indisponivel";
+        }
+
+        return builder.toString();
+    }
+
+    private String formatDistance(double distanciaKm) {
+        if (distanciaKm < 1) {
+            return String.format(Locale.getDefault(), "%.0f m", distanciaKm * 1000);
+        }
+
+        return String.format(Locale.getDefault(), "%.2f km", distanciaKm);
+    }
+
+    private String safeText(String value) {
+        return value == null ? "" : value.trim();
     }
 }
